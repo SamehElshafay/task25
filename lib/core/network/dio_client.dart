@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:task/core/network/interceptors/token_dio_interceptor.dart';
 import 'package:task/core/utils/constants.dart';
 
@@ -19,11 +20,16 @@ class DioClient {
     );
 
     _dio.interceptors.add(TokenDioInterceptor());
-
-    _dio.interceptors.add(LogInterceptor(
-      requestBody: true,
-      responseBody: true,
-    ));
+    _dio.interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+      ),
+    );
   }
 
   Future<Response> get(String path, {Map<String, dynamic>? query}) async {

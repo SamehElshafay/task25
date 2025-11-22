@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class PopularPeopleLoadingScreen extends StatelessWidget {
@@ -9,7 +10,9 @@ class PopularPeopleLoadingScreen extends StatelessWidget {
     const Color baseColor = Color(0xFF282828);
     const Color highlightColor = Color(0xFF3B3B3B);
 
-    return Expanded(
+    return Container(
+      width: 1.sw,
+      height: 1.sh,
       child: Shimmer(
         color: baseColor,
         child: ListView.builder(

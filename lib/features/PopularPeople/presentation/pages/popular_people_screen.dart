@@ -29,21 +29,24 @@ class PopularPeopleScreen extends StatelessWidget {
         bloc: context.read<PopularPeopleCubit>()..getPopularPeople({"page": 1}),
         builder: (context, state) {
           if(state is GetActorsLoaded){
-            return ListView(
-              children: [
-                PaginationWidget(
-                  currentPage: state.actors.page! ,
-                  totalPages: state.actors.totalPages! ,
-                  onPageSelected: (index) {
-                    context.read<PopularPeopleCubit>().getPopularPeople({"page": index});
-                  },
-                ),
-                ...state.actors.results!.map((e) {
-                  return PersonCard(
-                    person: e
-                  );
-                }).toList(),
-              ],
+            return SizedBox(
+              height: 0.8.sh,
+              child: ListView(
+                children: [
+                  PaginationWidget(
+                    currentPage: state.actors.page! ,
+                    totalPages: state.actors.totalPages! ,
+                    onPageSelected: (index) {
+                      context.read<PopularPeopleCubit>().getPopularPeople({"page": index});
+                    },
+                  ),
+                  ...state.actors.results!.map((e) {
+                    return PersonCard(
+                      person: e
+                    );
+                  }).toList(),
+                ],
+              ),
             );
           }
           return PopularPeopleLoadingScreen();

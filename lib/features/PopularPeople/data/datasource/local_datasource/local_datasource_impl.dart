@@ -24,15 +24,18 @@ class PopularPeopleLocalDatasourceImpl implements PopularPeopleDatasource {
       final exists = await cacheHelper.has(cacheKey);
 
       if (!exists) {
-        return Left(ServerFailure("No Cached Data"));
+        return  Left(ServerFailure("No cached data"));
       }
 
-      final cachedJson = await cacheHelper.get(cacheKey) as Map<String, dynamic>;
-      final cachedResponse = ActorResponse.fromJson(cachedJson);
+      final cached = await cacheHelper.get(cacheKey);
+      if (cached is! Map<String, dynamic>) {
+        return Left(ServerFailure("Cached data is invalid"));
+      }
 
+      final cachedResponse = ActorResponse.fromJson(cached);
       return Right(cachedResponse);
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
+    } catch (e, st) {
+      return Left(ServerFailure("Failed to fetch from cache: ${e.toString()}"));
     }
   }
 }
